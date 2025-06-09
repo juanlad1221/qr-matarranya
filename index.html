@@ -1,41 +1,62 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Abrir mi app</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <style>
-      body {
-        font-family: sans-serif;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        height: 100vh;
-        background: #f7f7f7;
+<head>
+  <meta charset="UTF-8">
+  <title>Abrir Matarranya App</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background: #f7f7f7;
+    }
+    button {
+      padding: 1em 2em;
+      font-size: 1.2em;
+      background: #097ade;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #065ea8;
+    }
+  </style>
+</head>
+<body>
+  <h1>¡Abre la app Matarranya!</h1>
+  <p>Pulsa el botón para abrir la aplicación. Si no la tienes instalada, abre Google Play:</p>
+  <button onclick="abrirApp()">Abrir app</button>
+  <script>
+    function abrirApp() {
+      var scheme = "matarranya://";
+      var packageName = "com.juanlad1221.matarranya";
+      // Intent para Android Chrome
+      var intentUrl = `intent://#Intent;scheme=matarranya;package=${packageName};end`;
+
+      var ua = navigator.userAgent.toLowerCase();
+      if (ua.indexOf("android") > -1 && ua.indexOf("chrome") > -1) {
+        window.location.href = intentUrl;
+        // Opcional: fallback tras 2 segundos si no redirige a la app
+        setTimeout(function() {
+          window.location.href = "https://play.google.com/store/apps/details?id=com.juanlad1221.matarranya";
+        }, 2000);
+      } else if (ua.indexOf("iphone") > -1 || ua.indexOf("ipad") > -1) {
+        // iOS: intenta abrir el esquema, si no, sugiere instalar (no se puede redirigir automático a App Store)
+        window.location.href = scheme;
+        setTimeout(function() {
+          alert("¿No se abrió la app? Puedes instalarla desde la App Store buscando 'matarranya'.");
+        }, 2000);
+      } else {
+        // Otros navegadores: intenta el esquema
+        window.location.href = scheme;
       }
-      button {
-        padding: 1em 2em;
-        font-size: 1.2em;
-        background: #097ade;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-      }
-      button:hover {
-        background: #065ea8;
-      }
-    </style>
-  </head>
-  <body>
-    <h1>¡Abre nuestra app!</h1>
-    <p>Pulsa el botón para abrir la aplicación:</p>
-    <button onclick="abrirApp()">Abrir app</button>
-    <script>
-      function abrirApp() {
-        window.location.href = "matarranya://";
-      }
-    </script>
-  </body>
+    }
+  </script>
+</body>
 </html>
