@@ -125,19 +125,19 @@
             let storeUrl = '';
             let appDeepLink = APP_DEEP_LINK_BASE
 
-            /*if (os === 'iOS') {
+            if (os === 'iOS') {
                 storeUrl = APP_STORE_URL;
-                 appDeepLink + 'ios'
+                appDeepLink += 'ios';
             } else if (os === 'Android') {
                 storeUrl = PLAY_STORE_URL;
-                appDeepLink + 'android'
+                appDeepLink += 'android';
             } else {
                 // Si es un desktop o un SO no detectado, podrías redirigir a una página informativa
                 // o simplemente mantener el enlace a Google Play como fallback genérico.
                 storeUrl = PLAY_STORE_URL; // O una página de landing genérica
                 alert('Detectamos que no estás en un dispositivo móvil. Serás redirigido a la tienda de aplicaciones para Android.');
-            }*/
-           alert(os)
+            }
+           alert(appDeepLink)
             //console.log('Redirigiendo a:', appDeepLink, navigator.platform);
             // 1. Intenta abrir el deep link
             //window.location.href = appDeepLink;
