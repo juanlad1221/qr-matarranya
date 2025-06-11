@@ -121,11 +121,10 @@
 
             if (os === 'iOS') {
                 storeUrl = APP_STORE_URL;
-                // Para iOS Universal Links, la URL de deep link es la misma que la web
-                // que la app está configurada para manejar.
+                 appDeepLink + 'ios'
             } else if (os === 'Android') {
                 storeUrl = PLAY_STORE_URL;
-                // Para Android App Links, la URL de deep link también es la misma que la web.
+                appDeepLink + 'android'
             } else {
                 // Si es un desktop o un SO no detectado, podrías redirigir a una página informativa
                 // o simplemente mantener el enlace a Google Play como fallback genérico.
