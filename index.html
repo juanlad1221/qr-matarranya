@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,7 +10,7 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             text-align: center;
             padding: 20px;
-            background-color: #eef2f7;
+            background-color: #E6E6D3;
             color: #333;
             display: flex;
             justify-content: center;
@@ -17,27 +18,32 @@
             min-height: 100vh;
             margin: 0;
         }
+
         .container {
             background-color: #ffffff;
             margin: 20px;
             padding: 40px;
             border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
             max-width: 500px;
             width: 100%;
         }
+
         h1 {
             color: #2c3e50;
             font-size: 2em;
             margin-bottom: 15px;
         }
+
         p {
             font-size: 1.1em;
             line-height: 1.6;
             margin-bottom: 25px;
         }
+
         .app-button {
-            background-color: #28a745; /* Verde vibrante */
+            background-color: #999900;
+            /* Verde vibrante */
             color: white;
             padding: 15px 30px;
             border: none;
@@ -45,65 +51,96 @@
             cursor: pointer;
             font-size: 1.2em;
             font-weight: bold;
-            text-decoration: none; /* Si es un enlace */
+            text-decoration: none;
+            /* Si es un enlace */
             display: inline-block;
             transition: background-color 0.3s ease, transform 0.2s ease;
         }
+
         .app-button:hover {
-            background-color: #218838;
+            background-color: #dcdc03;
             transform: translateY(-2px);
         }
+
         .store-link {
             margin-top: 20px;
             font-size: 0.9em;
             color: #555;
         }
+
         .store-link a {
             color: #007bff;
             text-decoration: none;
         }
+
         .store-link a:hover {
             text-decoration: underline;
         }
     </style>
 </head>
+
 <body>
     <div class="container">
-        <h1>¡Bienvenido a MiAppQR!</h1>
-        <p>Haz clic en el botón de abajo para abrir nuestra aplicación. Si no la tienes instalada, te redirigiremos a la tienda de aplicaciones para que puedas descargarla.</p>
+        <img src="./Logo.png" alt="Logo Matarraña" style="width: 110px; height: auto; margin-bottom: 10px;">
+        <h2>¡Bienvenidos!</h2>
+        <p>Haz clic en el botón de abajo para abrir nuestra aplicación. Si no la tienes instalada, te redirigiremos a la
+            tienda de aplicaciones para que puedas descargarla.</p>
 
         <button class="app-button" onclick="openAppOrStore()">
-            Abrir MiAppQR
+            Abrir app
         </button>
-
-        <p class="store-link">¿Problemas? También puedes <a href="https://play.google.com/store/apps/details?id=com.tudominio.miappqr" target="_blank">descargarla directamente desde Google Play</a>.</p>
     </div>
 
     <script>
+        // Define las URLs de tu aplicación en las tiendas
+        const APP_STORE_URL = 'https://apps.apple.com/app/tu-app-id-de-apple';
+        const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.tudominio.miappqr';
+
+        // URL base de tu App Link que tu aplicación maneja.
+        // Cualquier parámetro de la URL de esta página se adjuntará a este enlace.
+        const APP_DEEP_LINK_BASE = 'matarranya://';
+
+        // Función para detectar el sistema operativo
+        function getOS() {
+            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+            if (/android/i.test(userAgent)) {
+                return 'Android';
+            }
+            if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+                return 'iOS';
+            }
+            return 'Other'; // Para desktop u otros sistemas
+        }
+
+
         function openAppOrStore() {
-            // Este es el enlace de tu App Link (Universal Link en iOS) que tu aplicación está configurada para manejar.
-            // Asegúrate de que coincida con lo que configuraste en app.json y assetlinks.json.
-            // Puedes pasar parámetros desde la URL de esta página a tu app.
-            //const appDeepLink = 'https://tudominio.com/qr' + window.location.search;
-            const appDeepLink = 'matarranya://algo'
-            // Intenta abrir el deep link
+            const os = getOS();
+            let storeUrl = '';
+            let appDeepLink = APP_DEEP_LINK_BASE + 'algo'
+
+            if (os === 'iOS') {
+                storeUrl = APP_STORE_URL;
+                // Para iOS Universal Links, la URL de deep link es la misma que la web
+                // que la app está configurada para manejar.
+            } else if (os === 'Android') {
+                storeUrl = PLAY_STORE_URL;
+                // Para Android App Links, la URL de deep link también es la misma que la web.
+            } else {
+                // Si es un desktop o un SO no detectado, podrías redirigir a una página informativa
+                // o simplemente mantener el enlace a Google Play como fallback genérico.
+                storeUrl = PLAY_STORE_URL; // O una página de landing genérica
+                alert('Detectamos que no estás en un dispositivo móvil. Serás redirigido a la tienda de aplicaciones para Android.');
+            }
+
+            // 1. Intenta abrir el deep link
             window.location.href = appDeepLink;
 
-            // Define la URL de la tienda de aplicaciones como fallback.
-            // Es crucial que esta URL sea precisa para tu app.
-            const playStoreUrl = 'https://play.google.com/store/apps/details?id=com.tudominio.miappqr';
-
-            // Este timeout intentará redirigir a la tienda si la app no se abre.
-            // Es un tiempo de espera para que el sistema operativo intente abrir la app primero.
-            // Si la app está instalada y el App Link está configurado correctamente,
-            // el navegador debería pasar el control a la app y este timeout no se ejecutará.
-            setTimeout(function() {
-                // Solo si la página no se ha redirigido a la app,
-                // significa que la app no está instalada o el deep link falló.
-                // Redirigimos a la Play Store.
-                window.location.href = playStoreUrl;
-            }, 2000); // Espera 2 segundos
+            setTimeout(function () {
+                window.location.href = storeUrl;
+            }, 2000);
         }
     </script>
 </body>
+
 </html>
