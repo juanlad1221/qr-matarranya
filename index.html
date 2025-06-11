@@ -102,7 +102,7 @@
 
         // Función para detectar el sistema operativo
         function getOS() {
-            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            const userAgent = navigator.platform//navigator.userAgent || navigator.vendor || window.opera;
             const isAndroid = /android/i.test(userAgent);
             const isIOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
             const isMobile = isAndroid || isIOS;
@@ -112,10 +112,6 @@
             if (isIOS) {
                 return 'iOS';
             }
-            // Detecta desktop (Windows, Mac, Linux)
-            if (/Win|Mac|Linux/.test(navigator.platform)) {
-                return 'Desktop';
-            }
             return 'Other'; // Otros sistemas
         }
 
@@ -124,21 +120,23 @@
             const os = getOS();
             let storeUrl = '';
             let appDeepLink = APP_DEEP_LINK_BASE
-
+            //console.log(os)
             if (os === 'iOS') {
                 storeUrl = APP_STORE_URL;
                 appDeepLink += 'ios';
+                //console.log(appDeepLink)
             } else if (os === 'Android') {
                 storeUrl = PLAY_STORE_URL;
                 appDeepLink += 'android';
+                //console.log(appDeepLink)
             } else {
                 // Si es un desktop o un SO no detectado, podrías redirigir a una página informativa
                 // o simplemente mantener el enlace a Google Play como fallback genérico.
                 storeUrl = PLAY_STORE_URL; // O una página de landing genérica
+
                 alert('Detectamos que no estás en un dispositivo móvil. Serás redirigido a la tienda de aplicaciones para Android.');
             }
            alert(appDeepLink)
-            //console.log('Redirigiendo a:', appDeepLink, navigator.platform);
             // 1. Intenta abrir el deep link
             //window.location.href = appDeepLink;
 
