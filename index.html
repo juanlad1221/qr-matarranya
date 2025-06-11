@@ -102,7 +102,7 @@
 
         // Función para detectar el sistema operativo
         function getOS() {
-            const userAgent = navigator.platform//navigator.userAgent || navigator.vendor || window.opera;
+            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
             const isAndroid = /android/i.test(userAgent);
             const isIOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
             const isMobile = isAndroid || isIOS;
@@ -136,7 +136,7 @@
 
                 alert('Detectamos que no estás en un dispositivo móvil. Serás redirigido a la tienda de aplicaciones para Android.');
             }*/
-           alert(navigator.userAgent)
+           alert(os)
             // 1. Intenta abrir el deep link
             //window.location.href = appDeepLink;
 
