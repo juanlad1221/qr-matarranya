@@ -121,7 +121,7 @@
             let storeUrl = '';
             let appDeepLink = APP_DEEP_LINK_BASE
             //console.log(os)
-            /*if (os === 'iOS') {
+            if (os === 'iOS') {
                 storeUrl = APP_STORE_URL;
                 appDeepLink += 'ios';
                 //console.log(appDeepLink)
@@ -135,8 +135,8 @@
                 storeUrl = PLAY_STORE_URL; // O una página de landing genérica
 
                 alert('Detectamos que no estás en un dispositivo móvil. Serás redirigido a la tienda de aplicaciones para Android.');
-            }*/
-           alert(os)
+            }
+           alert(appDeepLink)
             // 1. Intenta abrir el deep link
             //window.location.href = appDeepLink;
 
