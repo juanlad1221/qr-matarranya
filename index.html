@@ -98,7 +98,7 @@
 
         // URL base de tu App Link que tu aplicación maneja.
         // Cualquier parámetro de la URL de esta página se adjuntará a este enlace.
-        const APP_DEEP_LINK_BASE = 'matarranya://folletos';
+        const APP_DEEP_LINK_BASE = 'matarranya://';
 
         // Función para detectar el sistema operativo
         function getOS() {
@@ -134,7 +134,7 @@
                 alert('Detectamos que no estás en un dispositivo móvil. Serás redirigido a la tienda de aplicaciones para Android.');
             }
             // 1. Intenta abrir el deep link
-            window.location.href = 'matarranya://cosa' //appDeepLink;
+            window.location.href = 'matarranya://folletos' //appDeepLink;
 
             setTimeout(function () {
                 window.location.href = storeUrl;
