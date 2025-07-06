@@ -95,7 +95,6 @@
         // Define las URLs de tu aplicación en las tiendas
         const APP_STORE_URL = 'https://apps.apple.com/app/tu-app-id-de-apple';
         const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.tudominio.miappqr';
-
         // URL base de tu App Link que tu aplicación maneja.
         // Cualquier parámetro de la URL de esta página se adjuntará a este enlace.
         const APP_DEEP_LINK_BASE = 'matarranya://';
@@ -112,14 +111,15 @@
             if (isIOS) {
                 return 'iOS';
             }
-            return 'Other'; // Otros sistemas
+            return 'Other';
         }
 
 
         function openAppOrStore() {
             const os = getOS();
             let storeUrl = '';
-            let appDeepLink = APP_DEEP_LINK_BASE
+            let appDeepLink = APP_DEEP_LINK_BASE;
+
             if (os === 'iOS') {
                 storeUrl = APP_STORE_URL;
                 appDeepLink += 'ios';
@@ -129,18 +129,24 @@
             } else {
                 // Si es un desktop o un SO no detectado, podrías redirigir a una página informativa
                 // o simplemente mantener el enlace a Google Play como fallback genérico.
-                storeUrl = PLAY_STORE_URL; // O una página de landing genérica
-
+                storeUrl = PLAY_STORE_URL;
                 alert('Detectamos que no estás en un dispositivo móvil. Serás redirigido a la tienda de aplicaciones para Android.');
             }
             // 1. Intenta abrir el deep link
-            window.location.href = 'matarranya://folletos' //appDeepLink;
+            window.location.href = appDeepLink;
 
             setTimeout(function () {
                 window.location.href = storeUrl;
             }, 2500);
         }
+
+        window.onload = function () {
+            // Si el usuario está en un dispositivo móvil, se abre la app directamente
+            const os = getOS();
+            if (os === 'iOS' || os === 'Android') {
+                openAppOrStore();
+            }
+        };
     </script>
 </body>
-
 </html>
